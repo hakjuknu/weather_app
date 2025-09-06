@@ -196,9 +196,9 @@ export async function getForecast(lat: number, lon: number): Promise<{
 
         hourly.push({
           time: targetTime.toLocaleTimeString('ko-KR', {
-            hour: '2-digit',
-            minute: '2-digit'
-          }),
+        hour: '2-digit', 
+        minute: '2-digit' 
+      }),
           temperature: Math.round(interpolatedTemp),
           condition: currentData.weather[0].main,
           icon: currentData.weather[0].icon,
@@ -210,10 +210,15 @@ export async function getForecast(lat: number, lon: number): Promise<{
 
     // 일별 예보
     const dailyMap = new Map();
-    data.list.forEach((item: any) => {
+    data.list.forEach((item: {
+      dt: number;
+      main: { temp: number; humidity: number };
+      weather: Array<{ main: string; icon: string }>;
+      wind: { speed: number };
+    }) => {
       const date = new Date(item.dt * 1000);
       const dateKey = date.toISOString().split('T')[0];
-
+      
       if (!dailyMap.has(dateKey)) {
         dailyMap.set(dateKey, {
           date: dateKey,
@@ -225,7 +230,7 @@ export async function getForecast(lat: number, lon: number): Promise<{
           windSpeed: [],
         });
       }
-
+      
       const dayData = dailyMap.get(dateKey);
       dayData.temps.push(item.main.temp);
       dayData.conditions.push(item.weather[0].main);
@@ -234,7 +239,15 @@ export async function getForecast(lat: number, lon: number): Promise<{
       dayData.windSpeed.push(item.wind.speed);
     });
 
-    const daily: DailyForecast[] = Array.from(dailyMap.values()).map((dayData: any) => ({
+    const daily: DailyForecast[] = Array.from(dailyMap.values()).map((dayData: {
+      date: string;
+      day: string;
+      temps: number[];
+      conditions: string[];
+      icons: string[];
+      humidity: number[];
+      windSpeed: number[];
+    }) => ({
       date: dayData.date,
       day: dayData.day,
       maxTemp: Math.round(Math.max(...dayData.temps)),
@@ -307,7 +320,7 @@ function getMockWeatherData(lat: number, lon: number): WeatherData {
 
   const pattern = weatherPatterns[seed % weatherPatterns.length];
   const isKorea = lat >= 33 && lat <= 39 && lon >= 124 && lon <= 132;
-  let baseTemp = isKorea ? 23 : 20;
+  const baseTemp = isKorea ? 23 : 20;
 
   const finalTemp = baseTemp + pattern.tempModifier + ((seed % 10) - 5);
   const humidity = Math.max(30, Math.min(95, pattern.humidityBase + ((seed % 20) - 10)));
@@ -432,7 +445,7 @@ function getMockForecastData(lat: number, lon: number): {
     };
   });
 
-  return { hourly, daily };
+    return { hourly, daily };
 }
 
 /**

@@ -19,9 +19,9 @@ export default function Home() {
   const [dailyForecast, setDailyForecast] = useState<DailyForecast[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // 클라이언트 사이드 확인 (SSR 대응)
   const [isClient, setIsClient] = useState(false);
 
-  // 클라이언트 사이드 확인
   useEffect(() => {
     setIsClient(true);
   }, []);
@@ -88,6 +88,20 @@ export default function Home() {
     uvIndex: 5,
     precipitation: 20,
   };
+
+  // SSR 대응: 클라이언트 사이드에서만 렌더링
+  if (!isClient) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 dark:from-gray-900 dark:to-gray-800">
+        <div className="flex justify-center items-center min-h-screen">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
+            <p className="text-muted-foreground">로딩 중...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100 dark:from-gray-900 dark:to-gray-800">
@@ -259,7 +273,7 @@ export default function Home() {
                               </div>
                               <div className="font-bold text-sm">{forecast.temperature}°</div>
                               <div className="text-xs text-blue-500 font-medium">
-                                {(forecast as any).precipitation ||
+                                {(forecast as HourlyForecast & { precipitation?: number }).precipitation ||
                                   (forecast.condition === "Rain" ? 80 :
                                     forecast.condition === "Clouds" ? 40 :
                                       forecast.condition === "Snow" ? 70 : 10)
