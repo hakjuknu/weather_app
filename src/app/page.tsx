@@ -229,10 +229,22 @@ export default function Home() {
                           time: `${new Date(Date.now() + i * 60 * 60 * 1000).getHours()}:00`,
                           temperature: Math.round(22 + Math.sin(i * 0.3) * 5),
                           condition: "Clear",
-                          icon: "01d"
-                        }))).map((forecast, i) => {
-                          const maxTemp = Math.max(...(hourlyForecast.length > 0 ? hourlyForecast : Array.from({ length: 24 }, (_, j) => 22 + Math.sin(j * 0.3) * 5)).map(f => f.temperature));
-                          const minTemp = Math.min(...(hourlyForecast.length > 0 ? hourlyForecast : Array.from({ length: 24 }, (_, j) => 22 + Math.sin(j * 0.3) * 5)).map(f => f.temperature));
+                          icon: "01d",
+                          humidity: 50,
+                          windSpeed: 3,
+                          precipitation: 10
+                        } as HourlyForecast))).map((forecast, i) => {
+                          const allForecasts = hourlyForecast.length > 0 ? hourlyForecast : Array.from({ length: 24 }, (_, j) => ({
+                            time: `${new Date(Date.now() + j * 60 * 60 * 1000).getHours()}:00`,
+                            temperature: Math.round(22 + Math.sin(j * 0.3) * 5),
+                            condition: "Clear",
+                            icon: "01d",
+                            humidity: 50,
+                            windSpeed: 3,
+                            precipitation: 10
+                          } as HourlyForecast));
+                          const maxTemp = Math.max(...allForecasts.map(f => f.temperature));
+                          const minTemp = Math.min(...allForecasts.map(f => f.temperature));
                           const height = ((forecast.temperature - minTemp) / (maxTemp - minTemp)) * 80 + 20;
 
                           return (

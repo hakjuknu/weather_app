@@ -8,11 +8,16 @@ import { getCacheInfo, clearAllCache } from "@/lib/cache";
 import { Trash2, Database } from "lucide-react";
 
 export default function CacheManager() {
-    const [cacheInfo, setCacheInfo] = useState({
+    const [cacheInfo, setCacheInfo] = useState<{
+        totalCaches: number;
+        totalSize: number;
+        oldestCache?: string;
+        newestCache?: string;
+    }>({
         totalCaches: 0,
         totalSize: 0,
-        oldestCache: undefined as string | undefined,
-        newestCache: undefined as string | undefined,
+        oldestCache: undefined,
+        newestCache: undefined,
     });
 
     const updateCacheInfo = () => {

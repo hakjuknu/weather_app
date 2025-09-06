@@ -204,6 +204,9 @@ export async function getForecast(lat: number, lon: number): Promise<{
           icon: currentData.weather[0].icon,
           humidity: Math.round(currentData.main.humidity + (nextData.main.humidity - currentData.main.humidity) * factor),
           windSpeed: Math.round((currentData.wind.speed + (nextData.wind.speed - currentData.wind.speed) * factor) * 10) / 10,
+          precipitation: Math.round((currentData.rain?.['1h'] || currentData.snow?.['1h'] || 0) * 100) ||
+            (currentData.weather[0].main === 'Rain' ? 80 :
+              currentData.weather[0].main === 'Clouds' ? 20 : 5),
         });
       }
     }

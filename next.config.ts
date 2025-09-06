@@ -16,7 +16,6 @@ const nextConfig: NextConfig = {
 
   // 성능 최적화
   experimental: {
-    optimizeCss: true,
     optimizePackageImports: ['lucide-react'],
   },
 
