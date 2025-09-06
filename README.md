@@ -1,36 +1,204 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+#요구사항명세서
+---
+# 🌐 날씨정보 웹서비스 기능명세서
 
-## Getting Started
+## 1. 개요
 
-First, run the development server:
+- **목적**: 사용자가 선택한 지역 정보를 기반으로 실시간 날씨 데이터를 제공하는 웹 애플리케이션.
+    
+- **UI 프레임워크**: Shadcn UI, Tailwind CSS
+    
+- **대상 플랫폼**: 웹 (모바일·데스크톱 반응형 지원)
+    
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 2. 핵심 기능
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 2.1 지역 선택
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **지역 검색/선택 기능**
+    
+    - 검색창에서 지역명을 입력하면 자동완성 제공.
+        
+    - 드롭다운 또는 모달 UI로 지역 선택.
+        
+    - 최근 검색 지역 기록 및 빠른 선택 기능 제공.
+        
 
-## Learn More
+### 2.2 날씨 정보 표시
 
-To learn more about Next.js, take a look at the following resources:
+- **현재 날씨**
+    
+    - 기온, 체감온도, 날씨 상태(맑음, 흐림, 비, 눈 등)
+        
+    - 습도, 풍속, 자외선 지수
+        
+- **예보 정보**
+    
+    - 24시간 시간대별 예보 (아이콘 + 온도 + 상태)
+        
+    - 7일간 일별 예보 (최고/최저기온 + 상태)
+        
+- **시각화**
+    
+    - 아이콘 기반 날씨 표현
+        
+    - 차트(온도 변화 그래프) 제공
+        
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 2.3 사용자 경험(UI/UX)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **다크모드 지원**
+    
+- **반응형 레이아웃**
+    
+- **로딩 상태 표시 (Skeleton UI)**
+    
+- **에러 처리**
+    
+    - API 오류 시 사용자 친화적 안내 메시지 표시
+        
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 3. 기술 스택 및 API
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 3.1 프론트엔드
+
+- React + Next.js (App Router)
+    
+- Shadcn UI 컴포넌트 활용 (Card, Input, Dropdown, Tabs, Modal 등)
+    
+- Tailwind CSS (반응형 및 다크모드 지원)
+    
+
+### 3.2 백엔드/데이터
+
+- OpenWeatherMap API 또는 기상청 오픈API 활용
+    
+- 지역검색: Geocoding API (Google Maps / OpenStreetMap)
+    
+
+---
+
+## 4. 주요 UI 구성 요소
+
+1. **헤더**
+    
+    - 서비스 로고, 지역 검색창, 다크모드 토글
+        
+2. **날씨 카드 (현재 날씨)**
+    
+    - 선택한 지역명
+        
+    - 현재 기온, 날씨 아이콘, 기초 정보
+        
+3. **예보 섹션**
+    
+    - 탭 전환 (시간별 / 주간별)
+        
+    - 카드 및 그래프 형태로 제공
+        
+4. **푸터**
+    
+    - API 출처, 저작권 정보
+        
+
+---
+
+## 5. 요구사항 요약
+
+- 지역 검색 및 선택 → 날씨 API 호출 → 현재 및 예보 데이터 시각화
+    
+- Shadcn UI + Tailwind CSS로 현대적이고 직관적인 UI 제공
+    
+- 반응형/다크모드 필수
+    
+- API 오류·네트워크 오류 처리 필수
+
+---
+
+## 6. 개발 구현 단계
+
+### **1단계: 개발 환경 및 UI 기반 설정 (1-2일)** ✅ **완료**
+- [x] Shadcn UI 설치 및 초기 설정
+- [x] 필요한 추가 라이브러리 설치 (상태 관리, 데이터 페칭 등)
+- [x] 기본 레이아웃 및 네비게이션 구조 구현
+- [x] 다크모드 토글 기능 구현
+- [x] 반응형 디자인 및 데스크톱 중앙 정렬 개선
+- [x] 환경변수 파일(.env.local) 설정
+
+### **2단계: 지역 검색 시스템 구현 (2-3일)** ✅ **완료**
+- [x] OpenWeatherMap Geocoding API 연동
+- [x] 지역 검색 자동완성 컴포넌트 구현
+- [x] 최근 검색 지역 로컬 저장 기능
+- [x] 드롭다운/모달 UI로 지역 선택 기능
+- [x] 실제 날씨 데이터 API 연동 (현재 날씨, 시간별/일별 예보)
+- [x] 날씨 아이콘 및 상태 표시 개선
+- [x] 로딩 상태 및 에러 처리 구현
+
+### **3단계: 현재 날씨 정보 표시 (3-4일)** ✅ **완료**
+- [x] OpenWeatherMap Current Weather API 연동
+- [x] 현재 날씨 카드 컴포넌트 구현
+- [x] 날씨 아이콘 및 상태 표시
+- [x] 기온, 체감온도, 습도, 풍속, 자외선 지수 표시
+- [x] 기압, 가시거리 추가 정보 표시
+- [x] 각 정보별 상태 설명 (예: 습도 "적정", 풍속 "센바람" 등)
+
+### **4단계: 예보 정보 시스템 (4-5일)** ✅ **완료**
+- [x] OpenWeatherMap Forecast API 연동
+- [x] 24시간 시간대별 예보 구현 (1시간 간격)
+- [x] 7일 일별 예보 구현
+- [x] 탭 전환 UI (시간별/주간별)
+- [x] 온도 변화 차트 구현
+- [x] 가로 스크롤 기능으로 모든 24시간 데이터 표시
+- [x] 강수확률 정보 추가
+
+### **5단계: UI/UX 개선 및 에러 처리 (2-3일)** ✅ **완료**
+- [x] 로딩 상태 Skeleton UI 구현
+- [x] API 에러 처리 및 사용자 친화적 메시지
+- [x] 반응형 레이아웃 최적화  
+- [x] 접근성 개선 (ARIA 라벨, 키보드 내비게이션)
+- [x] 에러 메시지에 "다시 시도" 기능 추가
+- [x] 향상된 WeatherCard Skeleton UI
+
+### **6단계: 성능 최적화 및 마무리 (1-2일)** ✅ **완료**
+- [x] 데이터 캐싱 구현 (localStorage, 5-15분 캐시)
+- [x] 이미지 최적화 (Next.js Image, WebP/AVIF)
+- [x] SEO 메타데이터 설정 (OpenGraph, Twitter Cards, PWA)
+- [x] PWA 매니페스트 및 아이콘 설정
+- [x] 보안 헤더 설정
+- [x] 성능 모니터링 (/api/health)
+- [x] 캐시 관리 UI 구현
+- [x] 최종 테스트 및 배포 준비
+
+---
+
+### **🎉 프로젝트 완성 상황**
+- ✅ **1단계 완료**: 개발 환경 및 UI 기반 설정 완료
+- ✅ **2단계 완료**: 지역 검색 시스템 및 실제 API 연동 완료
+- ✅ **3단계 완료**: 상세 현재 날씨 정보 표시 완료
+- ✅ **4단계 완료**: 예보 정보 시스템 고도화 완료
+- ✅ **5단계 완료**: UI/UX 개선 및 에러 처리 완료
+- ✅ **6단계 완료**: 성능 최적화 및 배포 준비 완료
+- 🎯 **현재 상태**: **완전히 완성된 엔터프라이즈급 날씨 앱** 
+- 🚀 **배포 준비**: 프로덕션 배포 가능 상태
+
+---
+
+## 🏆 **최종 완성된 기능들**
+
+### 📱 **핵심 기능**
+- 🔍 지능형 지역 검색 (자동완성, GPS, 최근 검색)
+- 🌤️ 상세 현재 날씨 (7개 정보: 온도, 체감온도, 습도, 풍속, 자외선, 기압, 가시거리, 강수확률)
+- ⏰ 24시간 시간별 예보 (1시간 간격, 가로 스크롤, 온도 그래프)
+- 📅 7일 일별 예보
+- 🌙 완벽한 다크모드 지원
+
+### ⚡ **성능 & 기술**
+- 💾 데이터 캐싱 시스템 (5-15분 자동 캐시)
+- 📱 PWA 지원 (설치 가능한 웹앱)
+- 🚀 Next.js 최적화 (이미지, CSS, 번들)
+- ♿ 완전한 접근성 지원 (ARIA, 키보드 내비게이션)
+- 📊 성능 모니터링 및 헬스 체크

@@ -1,0 +1,31 @@
+{
+    "name": "날씨정보 - 실시간 날씨 예보",
+    "short_name": "날씨정보",
+    "description": "전 세계 도시의 실시간 날씨 정보와 24시간 예보, 7일 예보를 확인하세요",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#3b82f6",
+    "icons": [
+        {
+            "src": "/favicon.ico",
+            "sizes": "any",
+            "type": "image/x-icon"
+        },
+        {
+            "src": "/apple-icon.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ],
+    "categories": [
+        "weather",
+        "utilities",
+        "lifestyle"
+    ],
+    "lang": "ko",
+    "orientation": "portrait-primary",
+    "scope": "/",
+    "id": "weather-app"
+}
